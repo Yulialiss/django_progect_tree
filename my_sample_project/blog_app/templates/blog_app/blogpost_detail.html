@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ blogpost.title }}</title>
+    <style>
+        body {
+            background-color: #FFF8DB;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            color: #304463;
+            border-bottom: 3px solid #E90074; /* Рожева лінія під заголовком */
+            padding-bottom: 10px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+
+        p {
+            line-height: 1.8;
+            margin: 20px 0;
+            font-size: 1.2em;
+        }
+
+        i {
+            color: #7D8ABC;
+            font-size: 1.1em;
+        }
+
+        .post-info {
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-top: 30px;
+        }
+
+        .post-info i {
+            color: #E90074; /* Рожевий колір для інформації */
+        }
+
+        .content-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+       .btn-back {
+            display: block;
+            text-align: center;
+            background-color: #E90074;
+            color: white;
+            padding: 3px 8px;
+            font-size: 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+            max-width: 300px;
+            height:30px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-back:hover {
+            background-color: #C70064;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="content-wrapper">
+    <h1>{{ blogpost.title }}</h1>
+
+    <p>{{ blogpost.text }}</p>
+
+    <div class="post-info">
+        <p><i>Owner: {{ blogpost.owner }}</i></p>
+        <p><i>Created at: {{ blogpost.created_at }}</i></p>
+        <p><i>Updated at: {{ blogpost.updated_at }}</i></p>
+    </div>
+
+    <a href="{% url 'blog_app:posts' %}" class="btn-back">Назад до списку постів</a>
+</div>
+
+</body>
+</html>

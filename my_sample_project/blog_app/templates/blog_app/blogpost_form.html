@@ -1,0 +1,45 @@
+<style>
+    body {
+        background-color: #FFF8DB;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    form {
+        background-color: #FFFFFF;
+        border: 1px solid #CCCCCC;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        color: #304463;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    input[type="submit"] {
+        background-color: #E90074;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s;
+        display: block;
+        margin: 0 auto;
+    }
+    p {
+        margin-bottom: 15px;
+    }
+</style>
+
+<h2>Оновити пост</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Update">
+</form>

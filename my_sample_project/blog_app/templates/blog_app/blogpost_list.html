@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список постів</title>
+    <style>
+        body {
+            background-color: #FFF8DB;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        h2 {
+            color: #304463;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 36px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        .blogpost-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .blogpost-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .blogpost-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .blogpost-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid #e90074;
+        }
+
+        .blogpost-content {
+            padding: 20px;
+        }
+
+        .blogpost-title {
+            font-size: 24px;
+            color: #304463;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .blogpost-title:hover {
+            color: #e90074;
+        }
+
+        .blogpost-text {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .blogpost-meta {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .btn-create {
+            display: inline-block;
+            background-color: #e90074;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .btn-create:hover {
+            background-color: #c70064;
+        }
+
+        .edit-link, .delete-link {
+            color: #e90074;
+            font-weight: bold;
+            text-decoration: none;
+            margin-left: 10px;
+            transition: color 0.3s ease;
+        }
+
+        .edit-link:hover, .delete-link:hover {
+            color: #c70064;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Пости</h2>
+    <a href="{% url 'blog_app:create_posts' %}" class="btn-create">Створити пост</a>
+    <ul class="blogpost-list">
+        {% for blogpost in blogpost_list %}
+        <li class="blogpost-item">
+            {% if blogpost.image %}
+                <img src="{{ blogpost.image.url }}" alt="{{ blogpost.title }}" class="blogpost-image">
+            {% endif %}
+            <div class="blogpost-content">
+                <a href="{% url 'blog_app:posts' blogpost.id %}" class="blogpost-title">{{ blogpost.title }}</a>
+                <p class="blogpost-text">{{ blogpost.text|truncatewords:30 }}</p>
+                <p class="blogpost-meta">Автор: {{ blogpost.owner.username }} | Створено: {{ blogpost.created_at|date:"Y-m-d" }}</p>
+                {% if blogpost.owner == user %}
+                    <div class="blogpost-actions">
+                        <a href="{% url 'blog_app:update_posts' blogpost.id %}" class="edit-link">Редагувати</a> |
+                        <a href="{% url 'blog_app:delete_posts' blogpost.id %}" class="delete-link">Видалити</a>
+                    </div>
+                {% endif %}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
