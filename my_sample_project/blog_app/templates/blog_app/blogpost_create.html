@@ -16,7 +16,7 @@
             border: 1px solid #CCCCCC;
             border-radius: 5px;
             padding: 20px;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto;
         }
 
@@ -39,20 +39,49 @@
             margin: 0 auto;
         }
 
+        input[type="submit"]:hover {
+            background-color: #D80066;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 1em;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus, select:focus {
+            border-color: #E90074;
+            box-shadow: 0 0 5px rgba(233, 0, 116, 0.5);
+        }
+
         input[type="file"] {
             display: block;
             margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #CCCCCC;
+            border-radius: 5px;
         }
 
         p {
             margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #304463;
         }
     </style>
 </head>
 <body>
 
 <h2>Додати новий пост</h2>
-<form method="post" enctype="multipart/form-data"> <!-- Додаємо enctype для завантаження файлів -->
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Створити пост">

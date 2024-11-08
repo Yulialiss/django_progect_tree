@@ -2,31 +2,35 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<h1> Login </h1>
+<div class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+    <div class="login-box bg-light p-5 rounded shadow-sm" style="max-width: 400px; width: 100%;">
+        <h1 class="text-center text-primary mb-4">Вхід</h1>
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+        {% if form.errors %}
+        <p class="text-danger text-center">Ваш логін або пароль не співпали. Спробуйте ще раз.</p>
+        {% endif %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+        {% if next %}
+            {% if user.is_authenticated %}
+            <p class="text-warning text-center">Ваш обліковий запис не має доступу до цієї сторінки. Увійдіть з обліковим записом, що має доступ.</p>
+            {% else %}
+            <p class="text-info text-center">Будь ласка, увійдіть, щоб побачити цю сторінку.</p>
+            {% endif %}
+        {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-{{form | crispy}}
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
 
-<button type="submit" value="login">Sumbit</button>
-<input type="hidden" name="next" value="{{ next }}">
-</form>
-<br>
-{# Assumes you set up the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-<p><a href="{% url 'home_app:register' %}">Not registered? Sign up</a></p>
+            <button type="submit" class="btn btn-primary w-100 mt-3">Увійти</button>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+
+        <div class="text-center mt-4">
+            <p><a href="{% url 'password_reset' %}" class="text-decoration-none">Забули пароль?</a></p>
+            <p><a href="{% url 'home_app:register' %}" class="text-decoration-none">Не маєте облікового запису? Зареєструватися</a></p>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

@@ -6,28 +6,30 @@
     <title>Список постів</title>
     <style>
         body {
-            background-color: #FFF8DB;
+            background: linear-gradient(to bottom right, #f1e4d4, #e0c8a2,#FFF8E3);
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            justify-content: flex-start;
+            align-items: flex-start;
+            min-height: 100vh;
             color: #333;
         }
 
         h2 {
-            color: #304463;
+            color: #3D0C11;
             text-align: center;
             margin-top: 40px;
             font-size: 36px;
         }
 
         .container {
+
             width: 100%;
             max-width: 1200px;
             padding: 20px;
+            margin: 0 auto;
         }
 
         .blogpost-list {
@@ -40,7 +42,7 @@
         }
 
         .blogpost-item {
-            background-color: white;
+            background-color: #FCE2DB;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -119,6 +121,61 @@
         .edit-link:hover, .delete-link:hover {
             color: #c70064;
         }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+
+        .step-links {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        .step-links a, .step-links .current {
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: 1px solid #e90074;
+            border-radius: 5px;
+            color: #e90074;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .step-links a:hover {
+            background-color: #e90074;
+            color: white;
+        }
+
+        .step-links a:active {
+            background-color: #c70064;
+        }
+
+        .step-links .current {
+            font-weight: bold;
+            background-color: #e9ecef;
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+
+        .step-links a[disabled], .step-links .disabled {
+            color: #6c757d;
+            pointer-events: none;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+
+        .step-links a[disabled]:hover {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+
+
     </style>
 </head>
 <body>
@@ -127,7 +184,7 @@
     <h2>Пости</h2>
     <a href="{% url 'blog_app:create_posts' %}" class="btn-create">Створити пост</a>
     <ul class="blogpost-list">
-        {% for blogpost in blogpost_list %}
+        {% for blogpost in page_obj %}
         <li class="blogpost-item">
             {% if blogpost.image %}
                 <img src="{{ blogpost.image.url }}" alt="{{ blogpost.title }}" class="blogpost-image">
@@ -146,6 +203,23 @@
         </li>
         {% endfor %}
     </ul>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
 
 </body>

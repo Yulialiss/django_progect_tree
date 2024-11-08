@@ -8,6 +8,7 @@ from .models import BlogPost
 
 class BlogListView(ListView):
     model = BlogPost
+    paginate_by = 3
     context_object_name = 'blogpost_list'
     template_name = 'blog_app/blogpost_list.html'
 

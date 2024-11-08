@@ -1,40 +1,138 @@
+<style>
+    /* Основні стилі для контенту */
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+    }
+
+    /* Стиль заголовків */
+    h1 {
+        color: #333;
+        font-size: 2.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h3 {
+        color: #555;
+        font-size: 1.5rem;
+        margin-top: 40px;
+    }
+
+    /* Стиль для інформації користувача */
+    pre {
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 14px;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        max-width: 600px;
+        margin: 20px auto;
+        color: #333;
+    }
+
+    /* Кнопка Logout */
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Стилі для посилань */
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    /* Стиль для списку карт */
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    ul li {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    /* Мобільна адаптивність */
+    @media (max-width: 576px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        pre {
+            font-size: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+        }
+    }
+</style>
+
 {% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <h1>Привіт, {{ user.username }}!</h1>
+        <p>Ви авторизовані як:</p>
+        <pre>
+            Ім'я користувача: {{ user.username }}
+            Повне ім'я: {{ user.get_full_name }}
+            Електронна пошта: {{ user.email }}
+            ID: {{ user.id }}
+            Адміністратор: {{ user.is_superuser }}
+        </pre>
 
+        <form action="{% url 'logout' %}" method="post">
+            <label>Ви авторизовані. Ви можете вийти:</label>
+            <button type="submit">Вийти</button>
+            {% csrf_token %}
+        </form>
+    {% else %}
+        <h1>Привіт, Гостю!</h1>
+        <p>Ви не авторизовані.</p>
+        <p>Ви можете <a href="{% url 'login' %}?next={{ request.path }}">Увійти</a> або
+            <a href="{% url 'home_app:register' %}?next={{ request.path }}">Зареєструватися</a>, якщо бажаєте.</p>
+    {% endif %}
 
-{% if user.is_authenticated %}
-<h1>Hello, {{ user.username }}!</h1>
-<p>Authenticated as
-    <pre>
-    Username: {{ user.username }}
-    Full name: {{ user.get_full_name }}
-    Email: {{ user.email }}
-    Id: {{ user.id }}
-    Is admin: {{user.is_superuser}}
-    </pre>
-</p>
-
-<form action="{% url "logout" %}" method="post">
-    <label>You are logged in. You can Logout:</label>
-    <button type="submit">Logout</button>
-    {% csrf_token %}
-</form>
-{% else %}
-<h1>Hello, Guest!</h1>
-<p>You are not logged in</p>
-<p>You can <a href="{% url 'login' %}?next={{ request.path }}">Login</a> or 
-    <a href="{% url 'home_app:register' %}?next={{ request.path }}">Register</a> if you like.</p>
-{% endif %}
-
-<h3>Site map:</h3>
-<ul>
-    <li>
-        Go to <a href="{% url 'home_app:open_page' %}">{% url 'home_app:open_page' %}</a>
-            (no login required)
-    </li>
-    <li>
-        Go to <a href="{% url 'home_app:closed_page' %}">{% url 'home_app:closed_page' %}</a>
-            (login required: protected by login_required decorator)
-    </li>
-</ul>
-
-{% endblock%}
+    <h3>Карта сайту:</h3>
+    <ul>
+        <li>
+            Перейти до <a href="{% url 'home_app:open_page' %}">Відкритої сторінки</a> (авторизація не потрібна)
+        </li>
+        <li>
+            Перейти до <a href="{% url 'home_app:closed_page' %}">Закритої сторінки</a> (потрібна авторизація: захищена декоратором login_required)
+        </li>
+    </ul>
+</div>
+{% endblock %}

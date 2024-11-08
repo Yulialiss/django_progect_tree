@@ -139,5 +139,6 @@ LOGOUT_REDIRECT_URL = 'home_app:home'
 
 # When we get to crispy forms :)
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_FAIL_SILENTLY = not DEBUG
