@@ -48,7 +48,9 @@ INSTALLED_APPS = [
      # Extensions - installed with requirements.txt
     'django_extensions', 
     'crispy_forms',  
-    'crispy_bootstrap5',  
+    'crispy_bootstrap5',
+    'taggit',
+
 ]
 
 MIDDLEWARE = [
