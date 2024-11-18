@@ -1,12 +1,10 @@
 <style>
-    /* Глобальні стилі */
     body {
         font-family: 'Arial', sans-serif;
         background-color: #f4f7fc;
         color: #333;
     }
 
-    /* Стіль для контейнера реєстрації */
     .container {
         display: flex;
         align-items: center;
@@ -15,7 +13,6 @@
         padding: 0 15px;
     }
 
-    /* Стіль для реєстраційного бокс */
     .registration-box {
         background-color: #ffffff;
         padding: 40px;
@@ -31,7 +28,6 @@
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
-    /* Стиль для заголовка */
     .registration-box h2 {
         color: #007bff;
         font-size: 28px;
@@ -41,7 +37,6 @@
         letter-spacing: 1px;
     }
 
-    /* Стиль для тексту посилання */
     .text-center a {
         color: #007bff;
         text-decoration: none;
@@ -54,7 +49,6 @@
         text-decoration: underline;
     }
 
-    /* Кнопка для відправки */
     .btn-primary {
         background-color: #007bff;
         border-color: #007bff;
@@ -71,7 +65,6 @@
         border-color: #004085;
     }
 
-    /* Поля форми */
     .form-control {
         border-radius: 8px;
         padding: 15px;
@@ -87,23 +80,11 @@
         background-color: #ffffff;
     }
 
-    /* Відступи між полями */
     .form-group {
         margin-bottom: 20px;
     }
 
-    /* Мобільна адаптивність */
-    @media (max-width: 576px) {
-        .registration-box {
-            width: 90%;
-            padding: 30px;
-        }
 
-        .btn-primary {
-            padding: 15px;
-            font-size: 18px;
-        }
-    }
 </style>
 
 {% extends "home_app/base_bootstrap.html" %}

@@ -16,7 +16,6 @@ urlpatterns = [
     path('create_posts/', BlogCreateView.as_view(), name='create_posts'),
     path('author/<str:username>/', AuthorPostListView.as_view(), name='author_posts'),
     path('my-posts/', views.MyPostsListView.as_view(), name='my_posts'),
-    path('contact/', views.contact_view, name='contact'),  # Переконайтесь, що ім'я функції вказано правильно
     path('post_comment/<int:post_id>/', post_comment, name="post_comment"),
 
 ]

@@ -19,11 +19,9 @@ def post_comment(request, post_id):
     if form.is_valid():
         comment = form.save(commit=False)
         comment.blogpost = post
-        comment.user = request.user  # Додаємо користувача
+        comment.user = request.user
         comment.save()
-        # Редирект на деталі посту після успішного додавання коментаря
         return redirect(post.get_absolute_url())
-    # Якщо форма не валідна, відображаємо форму з помилками
     return render(
         request,
         'blog_app/comment.html',
@@ -39,16 +37,6 @@ def post_comment(request, post_id):
 def contact(request):
     return render(request, 'blog_app/contacts.html')
 
-def contact_view(request):
-    if request.method == 'POST':
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            # Process form data (e.g., send email)
-            return redirect('blog_app:thank_you')  # Redirect to a success page or thank you page
-    else:
-        form = ContactForm()
-
-    return render(request, 'blog_app/contact.html', {'form': form})
 
 
 class AuthorPostListView(ListView):

@@ -32,3 +32,4 @@ class Comment(models.Model):
     blogpost = models.ForeignKey(BlogPost, related_name="comments", on_delete=models.CASCADE)
     post_time = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=True)
+

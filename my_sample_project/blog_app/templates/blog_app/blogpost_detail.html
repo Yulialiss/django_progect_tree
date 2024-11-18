@@ -6,16 +6,15 @@
     <title>{{ blogpost.title }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Загальний стиль */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
+            background-color: #fff;
+            color: #000;
             margin: 0;
             padding: 0;
         }
         a {
-            color: #007bff;
+            color: #000;
             text-decoration: none;
         }
         a:hover {
@@ -24,13 +23,13 @@
         .container {
             max-width: 900px;
             margin: 2rem auto;
-            background: #ffffff;
+            background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 2rem;
         }
         h1, h3, h4 {
-            color: #222;
+            color: #000;
             margin-bottom: 1rem;
         }
         h1 {
@@ -40,7 +39,7 @@
         }
         h3, h4 {
             font-size: 1.5rem;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #ccc;
             padding-bottom: 0.5rem;
             margin-bottom: 1rem;
         }
@@ -52,14 +51,13 @@
             font-weight: 700;
         }
 
-        /* Секція коментарів */
         .comments {
             margin-top: 2rem;
         }
         .comment {
             margin-bottom: 1.5rem;
             padding: 1rem;
-            border-left: 4px solid #007bff;
+            border-left: 4px solid #000;
             background-color: #f9f9f9;
             border-radius: 5px;
         }
@@ -67,7 +65,7 @@
             margin: 0.5rem 0;
         }
         .comment strong {
-            color: #333;
+            color: #000;
         }
         .empty-comments {
             text-align: center;
@@ -75,11 +73,10 @@
             color: #888;
         }
 
-        /* Секція форми */
         .form-container {
             margin-top: 2rem;
             padding: 1rem;
-            border: 1px solid #eee;
+            border: 1px solid #ccc;
             border-radius: 8px;
             background-color: #f7f7f7;
         }
@@ -91,17 +88,17 @@
         input, textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1rem;
         }
         input:focus, textarea:focus {
             outline: none;
-            border-color: #007bff;
-            box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+            border-color: #000;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
         }
         button {
-            background-color: #007bff;
+            background-color: #000;
             color: #fff;
             padding: 0.8rem 1.2rem;
             border: none;
@@ -111,15 +108,14 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #333;
         }
 
-        /* Кнопка повернення */
         .back-button {
             display: inline-block;
             margin-top: 1rem;
-            background-color: #6c757d;
-            color: #fff;
+            background-color: #ccc;
+            color: #000;
             padding: 0.6rem 1rem;
             text-decoration: none;
             border-radius: 4px;
@@ -128,10 +124,8 @@
             transition: background-color 0.3s;
         }
         .back-button:hover {
-            background-color: #5a6268;
+            background-color: #888;
         }
-
-        /* Відступи */
         .content-section {
             margin-bottom: 2rem;
         }
@@ -167,7 +161,6 @@
             </form>
         </div>
 
-        <!-- Кнопка повернення на головну -->
         <a href="{% url 'blog_app:posts' %}" class="back-button">На головну</a>
     </div>
 </body>
