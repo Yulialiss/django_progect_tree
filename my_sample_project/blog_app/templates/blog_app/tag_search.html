@@ -1,0 +1,27 @@
+<h1>Пошук за тегом</h1>
+
+<form method="get" action="{% url 'blog_app:tag_search' %}">
+    <input type="text" name="tag" id="tag" placeholder="Введіть тег" value="{{ tag|default:'' }}">
+    <button type="submit">Пошук</button>
+</form>
+
+{% if posts %}
+    <h2>Результати пошуку:</h2>
+    <ul>
+        {% for post in posts %}
+            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Нічого не знайдено. Спробуйте інший тег.</p>
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#tag').autocomplete({
+            source: "{% url 'blog_app:tag_search_autocomplete' %}",
+            minLength: 2
+        });
+    });
+</script>

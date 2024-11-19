@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мій профіль</title>
+    <style>
+       h2 {
+            color: #000;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 36px;
+        }
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            display: block;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .login-link {
+            margin-top: auto;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin-left: 270px;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #343a40;
+        }
+
+        main {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #343a40;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        strong {
+            color: #343a40;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        @media screen and (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            body {
+                margin-left: 220px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p, strong {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="sidebar">
+        <h3 class="sidebar-title">Пости</h3>
+        <a href="{% url 'blog_app:posts' %}">Головна</a>
+        <a href="{% url 'blog_app:my_posts' %}">Мої пости</a>
+        <a href="{% url 'blog_app:user_profile' %}">Мій профіль</a>
+        <a href="{% url 'blog_app:my_drafts' %}">Мої чернетки</a>
+
+        <a href="{% url 'login' %}" class="login-link">Увійти</a>
+    </div>
+
+   <header>
+    <h1>Вітаємо, {{ user.username }}!</h1>
+</header>
+
+    <main>
+        <section>
+            <h2>Твій профіль</h2>
+            <p><strong>Ім'я користувача:</strong> {{ user.username }}</p>
+            <p><strong>Дата реєстрації:</strong> {{ user.date_joined }}</p>
+            <p><strong>Останній вхід:</strong> {{ user.last_login }}</p>
+        </section>
+
+      <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+
+    </main>
+
+</body>
+</html>

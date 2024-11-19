@@ -13,7 +13,12 @@
             color: #333;
             background-color: #f4f4f9;
         }
-
+        h2 {
+            color: #000;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 36px;
+        }
         .container {
             display: flex;
             width: 100%;
@@ -114,8 +119,8 @@
         }
 
         .blogpost-image {
-            width: 180px;
-            height: 120px;
+            width:300px;
+            height: 220px;
             object-fit: cover;
             margin-right: 20px;
         }
@@ -135,7 +140,7 @@
         }
 
         .blogpost-title:hover {
-            color: #4CAF50;
+            color: #FF4191;
         }
 
         .blogpost-text {
@@ -155,14 +160,14 @@
         }
 
         .edit-link, .delete-link {
-            color: #007bff;
+            color: #000000;
             text-decoration: none;
             font-size: 0.95em;
             margin-right: 15px;
         }
 
         .edit-link:hover, .delete-link:hover {
-            color: #0056b3;
+            color: #FF4191;
             text-decoration: underline;
         }
 
@@ -171,22 +176,144 @@
             color: #888;
             text-align: center;
         }
+         .bg-stars {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -2;
+          background-size: cover;
+          animation: animateBg 50s linear infinite;
+        }
+
+        @keyframes animateBg {
+          0%, 100% {
+              transform: scale(1);
+          }
+          50% {
+              transform: scale(1.2);
+          }
+        }
+
+        .star {
+          position: absolute;
+          width: 4px;
+          height: 4px;
+          background: #000000;
+          border-radius: 50%;
+          box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 0.1);
+          animation: animate 3s linear infinite;
+        }
+
+        .star::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 300px;
+          height: 1px;
+          background: linear-gradient(90deg, #000000, transparent);
+        }
+
+        @keyframes animate {
+          0% {
+              transform: rotate(315deg) translateX(0);
+              opacity: 1;
+          }
+          70% {
+              opacity: 1;
+          }
+          100% {
+              transform: rotate(315deg) translateX(-1000px);
+              opacity: 0;
+          }
+        }
+
+        .star:nth-child(1) {
+          top: 10%;
+          left: 20%;
+          animation-delay: 0s;
+          animation-duration: 3s;
+        }
+
+        .star:nth-child(2) {
+          top: 30%;
+          left: 40%;
+          animation-delay: 1s;
+          animation-duration: 2s;
+        }
+
+        .star:nth-child(3) {
+          top: 50%;
+          left: 60%;
+          animation-delay: 1.5s;
+          animation-duration: 2.5s;
+        }
+
+        .star:nth-child(4) {
+          top: 70%;
+          left: 80%;
+          animation-delay: 2s;
+          animation-duration: 3.5s;
+        }
+
+        .star:nth-child(5) {
+          top: 20%;
+          left: 10%;
+          animation-delay: 1.2s;
+          animation-duration: 4s;
+        }
+
+        .star:nth-child(6) {
+          top: 90%;
+          left: 90%;
+          animation-delay: 0.5s;
+          animation-duration: 3.2s;
+        }
+
+        .star:nth-child(7) {
+          top: 40%;
+          left: 50%;
+          animation-delay: 1.8s;
+          animation-duration: 2.8s;
+        }
+
+
     </style>
 </head>
 <body>
+  <section class="bg-stars">
+        <span class="star"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+        <span class="star"></span>
+    </section>
 
     <div class="sidebar">
         <h3 class="sidebar-title">Пости</h3>
         <a href="{% url 'blog_app:posts' %}">Головна</a>
         <a href="{% url 'blog_app:my_posts' %}">Мої пости</a>
+        <a href="{% url 'blog_app:user_profile' %}">Мій профіль</a>
+        <a href="{% url 'blog_app:my_drafts' %}">Мої чернетки</a>
+
         <a href="{% url 'login' %}" class="login-link">Увійти</a>
     </div>
 
     <div class="container">
-        <div class="main-content">
-            <h1>Мої пости</h1>
-            <p>У вас {{ posts_count }} публікацій</p>
 
+        <div class="main-content">
+            <h2>Мої пости</h2>
+            <form method="get" action="{% url 'blog_app:posts' %}" class="filter-form">
+            <label for="status">Статус:</label>
+            <select name="status" id="status">
+                <option value="">Всі</option>
+                <option value="Draft" {% if request.GET.status == 'Draft' %}selected{% endif %}>Чернетка</option>
+                <option value="Published" {% if request.GET.status == 'Published' %}selected{% endif %}>Опубліковано</option>
+            </select>
+                <button type="submit">Фільтрувати</button>
+            </form>
+            <p>У вас {{ posts_count }} публікацій</p>
             <a href="{% url 'blog_app:create_posts' %}" class="btn-create">Створити пост</a>
 
             {% if posts %}

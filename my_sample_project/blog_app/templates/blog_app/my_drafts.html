@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мої чернетки</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        h2 {
+            color: #000;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 36px;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            display: block;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .sidebar .login-link {
+            margin-top: auto;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+
+        .container {
+            margin-left: 270px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .blogpost-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .blogpost-item {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .blogpost-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .blogpost-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .blogpost-image {
+            width:300px;
+            height: 220px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .blogpost-title:hover {
+            color: #007bff;
+        }
+
+        .blogpost-text {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .edit-link, .delete-link {
+            color: #007bff;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 5px 10px;
+            margin-right: 10px;
+        }
+
+        .edit-link:hover, .delete-link:hover {
+            color: #0056b3;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            color: #007bff;
+            text-decoration: none;
+            padding: 8px 16px;
+            margin: 0 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h3 class="sidebar-title">Пости</h3>
+        <a href="{% url 'blog_app:posts' %}">Головна</a>
+        <a href="{% url 'blog_app:my_posts' %}">Мої пости</a>
+        <a href="{% url 'blog_app:user_profile' %}">Мій профіль</a>
+        <a href="{% url 'blog_app:my_drafts' %}">Мої чернетки</a>
+        <a href="{% url 'login' %}" class="login-link">Увійти</a>
+    </div>
+
+    <div class="container">
+
+        <h2>Мої чернетки</h2>
+
+        <div class="blogpost-list">
+            {% if drafts %}
+                {% for post in drafts %}
+                    <div class="blogpost-item">
+                         {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="blogpost-image">
+                            {% endif %}
+                        <h3 class="blogpost-title">{{ post.title }}</h3>
+                        <p class="blogpost-text">{{ post.text|slice:":200" }}...</p>
+                        <a href="{% url 'blog_app:update_posts' pk=post.id %}" class="edit-link">Редагувати</a> |
+                        <a href="{% url 'blog_app:delete_posts' pk=post.id %}" class="delete-link">Видалити</a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>У вас немає чернеток.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+</html>

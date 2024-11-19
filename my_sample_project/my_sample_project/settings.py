@@ -31,6 +31,7 @@ SECRET_KEY = 'django-insecure-42kb)k9x$s0j0d!i%a-izs8fhczcf()nj)bbv+d&tds$e(kf$p
 DEBUG = True
 
 ALLOWED_HOSTS = []
+LOGIN_REDIRECT_URL = '/my-drafts/'
 
 
 # Application definition
