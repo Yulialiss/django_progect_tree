@@ -17,14 +17,11 @@ from taggit.models import Tag
 from .models import BlogPost
 
 
-# Пошук за тегами
 def tag_search_view(request):
     tag = request.GET.get('tag', '').strip()
     posts = BlogPost.objects.filter(tags__name__icontains=tag) if tag else None
     return render(request, 'blog_app/tag_search.html', {'posts': posts, 'tag': tag})
 
-
-# Автодоповнення тегів
 def tag_search_autocomplete(request):
     query = request.GET.get('term', '').strip()
     if query:
@@ -42,31 +39,6 @@ def post_comment(request, post_id):
         comment.save()
         return redirect(post.get_absolute_url())
     return render(request, 'blog_app/comment.html', {'blogpost': post, 'comment_form': form, 'comment': None})
-#
-# class AuthorPostListView(ListView):
-#     model = BlogPost
-#     template_name = 'blog_app/author_post_list.html'
-#     context_object_name = 'posts'
-#
-#     def get_queryset(self):
-#         author_username = self.kwargs.get('username')
-#         status_filter = self.request.GET.get('status')
-#         try:
-#             author = User.objects.get(username=author_username)
-#         except User.DoesNotExist:
-#             author = None
-#
-#         if author:
-#             queryset = BlogPost.objects.filter(owner=author)
-#             if status_filter:
-#                 queryset = queryset.filter(status=status_filter)
-#             return queryset
-#         return BlogPost.objects.none()
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['posts_count'] = self.get_queryset().count()
-#         return context
 
 class MyPostsListView(LoginRequiredMixin, ListView):
     model = BlogPost
