@@ -17,13 +17,12 @@ urlpatterns = [
     path('delete_posts/<int:pk>/', BlogDeleteView.as_view(), name="delete_posts"),
     path('update_posts/<int:pk>/', BlogUpdateView.as_view(), name='update_posts'),
     path('create_posts/', BlogCreateView.as_view(), name='create_posts'),
-    # path('author/<str:username>/', AuthorPostListView.as_view(), name='author_posts'),
     path('my-posts/', views.MyPostsListView.as_view(), name='my_posts'),
     path('post_comment/<int:post_id>/', post_comment, name="post_comment"),
     path('profile/', UserProfileView.as_view(), name='user_profile'),
 
     path('share_by_email/<int:post_id>/', views.share_by_email, name='share_by_email'),
-    path('my-drafts/', views.my_drafts, name='my_drafts'),  # Новий шлях для чернеток
+    path('my-drafts/', views.my_drafts, name='my_drafts'),
 
     path('tag_search/', views.tag_search_view, name='tag_search'),
     path('tag_search_autocomplete/', views.tag_search_autocomplete, name='tag_search_autocomplete'),
