@@ -1,33 +1,38 @@
-from django.core.paginator import Paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.views.generic import DetailView, DeleteView, UpdateView, CreateView, ListView
-from django.utils import timezone
-from django.contrib.auth.models import User
-from .models import BlogPost
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_POST
-from .forms import CommentForm, EmailForm
+from .forms import CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from django.http import JsonResponse
 from taggit.models import Tag
 from .models import BlogPost
+from django.core.mail import send_mail
+from django.shortcuts import render
+from .forms import EmailForm
 
+def send_email_view(request):
+    if request.method == "POST":
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data["subject"]
+            message = form.cleaned_data["message"]
+            recipient = form.cleaned_data["recipient"]
 
-def tag_search_view(request):
-    tag = request.GET.get('tag', '').strip()
-    posts = BlogPost.objects.filter(tags__name__icontains=tag) if tag else None
-    return render(request, 'blog_app/tag_search.html', {'posts': posts, 'tag': tag})
+            send_mail(
+                subject,
+                message,
+                "yuliahuralgit@gmail.com",
+                [recipient],
+                fail_silently=False,
+            )
+            return render(request, "blog_app/email_success.html")
+    else:
+        form = EmailForm()
 
-def tag_search_autocomplete(request):
-    query = request.GET.get('term', '').strip()
-    if query:
-        tags = Tag.objects.filter(name__icontains=query).values_list('name', flat=True)
-        return JsonResponse(list(tags), safe=False)
-    return JsonResponse([], safe=False)
+    return render(request, "blog_app/send_email.html", {"form": form})
 @require_POST
 def post_comment(request, post_id):
     post = get_object_or_404(BlogPost, id=post_id)
@@ -65,17 +70,22 @@ class BlogListView(ListView):
 
     def get_queryset(self):
         queryset = BlogPost.objects.all()
-        status_filter = self.request.GET.get('status')
-        if status_filter:
-            queryset = queryset.filter(status=status_filter)
+
+        search_query = self.request.GET.get('search')
+        if search_query:
+            search_tag = search_query.strip('#')
+            queryset = queryset.filter(tags__name__icontains=search_tag)
+
+        tag_filter = self.request.GET.get('tag')
+        if tag_filter:
+            queryset = queryset.filter(tags__name=tag_filter)
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts_count'] = BlogPost.objects.count()
+        context['tags'] = Tag.objects.all()
         return context
-
-
 
 class BlogDetailView(DetailView):
     model = BlogPost
@@ -99,7 +109,7 @@ class BlogDeleteView(LoginRequiredMixin, DeleteView):
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = BlogPost
     success_url = reverse_lazy('blog_app:posts')
-    fields = ['title', 'text', 'image', 'status']
+    fields = ['title', 'text', 'image', 'status', 'tags']
 
     def get_queryset(self):
         return BlogPost.objects.filter(owner=self.request.user)
@@ -108,12 +118,20 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     model = BlogPost
     template_name = 'blog_app/blogpost_create.html'
     success_url = reverse_lazy('blog_app:posts')
-    fields = ['title', 'text', 'image', 'status']
+    fields = ['title', 'text', 'image', 'status', 'tags']
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
-        form.instance.published_at = timezone.now()
-        return super().form_valid(form)
+        blogpost = form.save(commit=False)
+        blogpost.owner = self.request.user
+        blogpost.save()
+
+        tags = self.request.POST.get('tags')
+        if tags:
+            tag_list = tags.split(',')
+            for tag in tag_list:
+                blogpost.tags.add(tag.strip())
+
+        return redirect('blog_app:detail_posts', blogpost.id)
 
 class UserProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'blog_app/user_profile.html'
@@ -126,16 +144,9 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
         context['posts'] = BlogPost.objects.filter(owner=user)
         return context
 
-def share_by_email(request, post_id):
-    post = get_object_or_404(BlogPost, id=post_id)
-    form = EmailForm()
-    ctx = {'form': form, 'post': post}
-    return render(request, "blog_app/share_post_email.html", ctx)
-
-
-
 @login_required
 def my_drafts(request):
     drafts = BlogPost.objects.filter(owner=request.user, status='draft')
     return render(request, 'blog_app/my_drafts.html', {'drafts': drafts})
+
 

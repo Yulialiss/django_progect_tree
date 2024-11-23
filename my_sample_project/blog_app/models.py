@@ -1,11 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django import forms
 from django.urls import reverse
 from taggit.managers import TaggableManager
-
-from taggit.models import Tag
 
 class BlogPostManager(models.Manager):
     def posts_by_author(self, author):
@@ -52,6 +49,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment by {self.user.username} on {self.blogpost.title}"
-
-class TagSearchForm(forms.Form):
-    tag = forms.ModelChoiceField(queryset=Tag.objects.all(), required=False, label="Фільтрувати за тегом")

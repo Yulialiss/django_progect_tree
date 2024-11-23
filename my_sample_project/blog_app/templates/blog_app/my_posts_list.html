@@ -296,6 +296,7 @@
         <a href="{% url 'blog_app:my_posts' %}">Мої пости</a>
         <a href="{% url 'blog_app:user_profile' %}">Мій профіль</a>
         <a href="{% url 'blog_app:my_drafts' %}">Мої чернетки</a>
+        <a href="{% url 'blog_app:send_email' %}">Пошта</a>
 
         <a href="{% url 'login' %}" class="login-link">Увійти</a>
     </div>
@@ -327,6 +328,14 @@
                                 <a href="{% url 'blog_app:posts' post.id %}" class="blogpost-title">{{ post.title }}</a>
                                 <p class="blogpost-text">{{ post.text|truncatewords:30 }}</p>
                                 <p class="blogpost-meta">Автор: {{ post.owner.username }} | Створено: {{ post.created_at|date:"Y-m-d" }}</p>
+                                 <p class="blogpost-tags">
+                                    Теги:
+                                    {% for tag in post.tags.all %}
+                                        <span class="tag">{{ tag.name }}</span>
+                                    {% empty %}
+                                        <span>Немає тегів</span>
+                                    {% endfor %}
+                                </p>
                                 <div class="blogpost-actions">
                                     <a href="{% url 'blog_app:update_posts' post.id %}" class="edit-link">Редагувати</a> |
                                     <a href="{% url 'blog_app:delete_posts' post.id %}" class="delete-link">Видалити</a>

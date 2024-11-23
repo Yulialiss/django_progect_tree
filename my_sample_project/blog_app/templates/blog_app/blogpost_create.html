@@ -85,11 +85,14 @@
 <body>
 
 <h2>Додати новий пост</h2>
-<form method="post" enctype="multipart/form-data">
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Створити пост">
+    <label for="tags">Теги (через кому):</label>
+    <input type="text" name="tags" id="tags">
+    <button type="submit">Створити пост</button>
 </form>
+
 
 </body>
 </html>

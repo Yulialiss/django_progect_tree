@@ -50,6 +50,19 @@
         strong {
             font-weight: 700;
         }
+         .tags {
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .tags span {
+            background-color: #f0f0f0;
+            color: #333;
+            padding: 0.3rem 0.6rem;
+            border-radius: 20px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
 
         .comments {
             margin-top: 2rem;
@@ -138,6 +151,14 @@
             <p>{{ blogpost.text }}</p>
             <p><strong>Автор:</strong> {{ blogpost.owner.username }}</p>
             <p><strong>Опубліковано:</strong> {{ blogpost.published_at }}</p>
+            <div class="tags">
+                <strong>Теги:</strong>
+                {% for tag in blogpost.tags.all %}
+                    <span>{{ tag.name }}</span>
+                {% empty %}
+                    <span>Тегів немає.</span>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="comments">
@@ -163,6 +184,5 @@
 
         <a href="{% url 'blog_app:posts' %}" class="back-button">На головну</a>
     </div>
-
 </body>
 </html>

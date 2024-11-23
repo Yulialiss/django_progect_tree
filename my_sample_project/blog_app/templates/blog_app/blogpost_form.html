@@ -88,8 +88,13 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+
+    <div class="form-group">
+        <label for="tags">Теги:</label>
+        <input type="text" name="tags" id="tags" value="{{ form.tags.value }}" placeholder="Введіть теги, розділені комами" />
+    </div>
+
     <input type="submit" value="Обновити">
 </form>
-
 </body>
 </html>
